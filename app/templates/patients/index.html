@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Patients</h1>
+        <div class="flex">
+            <form action="{{ url_for('patients.index') }}" method="GET" class="mr-4 flex">
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name..."
+                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                    Search
+                </button>
+            </form>
+            <a href="{{ url_for('patients.add') }}"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-plus mr-2"></i>Add Patient
+            </a>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full leading-normal">
+            <thead>
+                <tr>
+                    <th
+                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Name</th>
+                    <th
+                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Age</th>
+                    <th
+                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Gender</th>
+                    <th
+                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <div class="flex items-center">
+                            <div class="ml-3">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{ patient.first_name }} {{ patient.last_name }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">{{ patient.age }}</p>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">{{ patient.gender }}</p>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <div class="flex item-center justify-center">
+                            <a href="{{ url_for('patients.view', patient_id=patient._id) }}"
+                                class="text-blue-600 hover:text-blue-900 mr-4">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('patients.edit', patient_id=patient._id) }}"
+                                class="text-yellow-600 hover:text-yellow-900 mr-4">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="{{ url_for('patients.delete', patient_id=patient._id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure?');" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-between items-center mt-4">
+        {% if page > 1 %}
+        <a href="{{ url_for('patients.index', page=page-1) }}"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+            Prev
+        </a>
+        {% else %}
+        <span class="bg-gray-200 text-gray-500 font-bold py-2 px-4 rounded-l cursor-not-allowed">Prev</span>
+        {% endif %}
+
+        <a href="{{ url_for('patients.index', page=page+1) }}"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+            Next
+        </a>
+    </div>
+</div>
+{% endblock %}

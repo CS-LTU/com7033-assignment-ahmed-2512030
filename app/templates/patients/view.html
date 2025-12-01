@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Patient Details</h1>
+        <div>
+            <a href="{{ url_for('patients.export_pdf', patient_id=patient._id) }}"
+                class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2">
+                <i class="fas fa-file-pdf mr-2"></i>Export PDF
+            </a>
+            <a href="{{ url_for('patients.index') }}"
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-100 p-4 rounded">
+            <h3 class="text-lg font-bold mb-2">Personal Info</h3>
+            <p><strong>Name:</strong> {{ patient.first_name }} {{ patient.last_name }}</p>
+            <p><strong>Age:</strong> {{ patient.age }}</p>
+            <p><strong>Gender:</strong> {{ patient.gender }}</p>
+            <p><strong>Work Type:</strong> {{ patient.work_type }}</p>
+            <p><strong>Residence:</strong> {{ patient.residence_type }}</p>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded">
+            <h3 class="text-lg font-bold mb-2">Medical Info</h3>
+            <p><strong>BMI:</strong> {{ patient.bmi }}</p>
+            <p><strong>Avg Glucose Level:</strong> {{ patient.avg_glucose_level }}</p>
+            <p><strong>Hypertension:</strong> {{ 'Yes' if patient.hypertension == '1' else 'No' }}</p>
+            <p><strong>Heart Disease:</strong> {{ 'Yes' if patient.heart_disease == '1' else 'No' }}</p>
+            <p><strong>Smoking Status:</strong> {{ patient.smoking_status }}</p>
+        </div>
+    </div>
+
+    <div class="mt-6 flex justify-center">
+        <form action="{{ url_for('patients.predict', patient_id=patient._id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:scale-105">
+                <i class="fas fa-heartbeat mr-2"></i> Predict Stroke Risk
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
