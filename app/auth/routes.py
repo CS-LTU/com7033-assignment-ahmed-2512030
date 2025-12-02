@@ -27,9 +27,13 @@ def login():
                 return redirect(url_for('auth.verify_2fa'))
             
             login_user(user, remember=form.remember_me.data)
+            # SECURITY: Log the login action for audit purposes
             log_audit('login', {'username': user.username})
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('patients.index'))
+            # SECURITY: Validate 'next' argument to prevent Open Redirect vulnerabilities
+            if not next_page or not next_page.startswith('/'):
+                next_page = url_for('patients.index')
+            return redirect(next_page)
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
             # Note: Cannot log user ID here as not authenticated, but could log failed attempt with username
