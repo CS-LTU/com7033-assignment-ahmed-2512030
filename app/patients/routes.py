@@ -7,6 +7,7 @@ from app.utils.audit import log_audit
 
 patients = Blueprint('patients', __name__)
 
+# root route for patients
 @patients.route('/')
 @login_required
 def index():
@@ -15,11 +16,8 @@ def index():
     per_page = 10
     skip = (page - 1) * per_page
     
-    patient_list = Patient.get_all(limit=per_page, skip=skip, search_query=search_query)
-    
-    # Log view action (optional, might be too verbose)
-    # log_audit('view_patient_list', {'page': page, 'search': search_query})
-    
+    #  parameterized queries
+    patient_list = Patient.get_all(limit=per_page, skip=skip, search_query=search_query) 
     return render_template('patients/index.html', patients=patient_list, page=page, search_query=search_query)
 
 @patients.route('/add', methods=['GET', 'POST'])
@@ -123,8 +121,7 @@ def predict(patient_id):
         return redirect(url_for('patients.index'))
     
     try:
-        # Decrypt sensitive fields for prediction
-        # Note: Patient model already decrypts on load
+        # Decrypt sensitive fields for prediction, in memory decryption used.
         prediction, probability = predict_stroke_risk(
             patient.age,
             patient.hypertension,
