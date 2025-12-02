@@ -18,13 +18,10 @@ def create_app(config_class=Config):
     csrf.init_app(app)
     
     # Talisman for security headers (HTTPS, CSP, etc.)
-    # In development, we might want to disable force_https if running locally without SSL
-    csp = {
-        'default-src': '\'self\'',
-        'script-src': ['\'self\'', 'https://cdn.jsdelivr.net'], # Allow Bootstrap/Tailwind CDN if needed
-        'style-src': ['\'self\'', 'https://cdn.jsdelivr.net', '\'unsafe-inline\''],
-    }
-    Talisman(app, content_security_policy=csp, force_https=False) # Set force_https=True in prod
+    Talisman(app, 
+             content_security_policy=app.config['CSP'], 
+             force_https=app.config['FORCE_HTTPS']
+    )
 
     # Initialize MongoDB
     # We attach it to app for easy access, or use a global client if preferred
@@ -35,9 +32,11 @@ def create_app(config_class=Config):
     from app.auth.routes import auth
     from app.patients.routes import patients
     from app.api.routes import api_bp
+    from app.home.routes import home
     
+    app.register_blueprint(home)
     app.register_blueprint(auth)
-    app.register_blueprint(patients)
+    app.register_blueprint(patients, url_prefix='/patients')
     app.register_blueprint(api_bp)
     
     # Create DB tables
