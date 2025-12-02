@@ -1,13 +1,21 @@
 from flask import make_response, render_template, flash, redirect, url_for
-from weasyprint import HTML
-from pypdf import PdfReader, PdfWriter
 import io
 from app.models.patient import Patient
+
+try:
+    from weasyprint import HTML
+    from pypdf import PdfReader, PdfWriter
+    HAS_PDF_LIBS = True
+except ImportError:
+    HAS_PDF_LIBS = False
 
 def generate_encrypted_pdf(patient_id):
     patient = Patient.get_by_id(patient_id)
     if not patient:
         return None
+        
+    if not HAS_PDF_LIBS:
+        raise Exception("PDF libraries not installed")
 
     # Render HTML for PDF
     html_content = render_template('patients/pdf_template.html', patient=patient)
