@@ -7,7 +7,6 @@ from app.utils.audit import log_audit
 
 patients = Blueprint('patients', __name__)
 
-# root route for patients
 @patients.route('/')
 @login_required
 def index():
@@ -16,9 +15,27 @@ def index():
     per_page = 10
     skip = (page - 1) * per_page
     
-    #  parameterized queries
-    patient_list = Patient.get_all(limit=per_page, skip=skip, search_query=search_query) 
-    return render_template('patients/index.html', patients=patient_list, page=page, search_query=search_query)
+    patient_list = Patient.get_all(limit=per_page, skip=skip, search_query=search_query)
+    
+    from flask import current_app
+    db = current_app.db_mongo
+    query = {}
+    if search_query:
+        query = {
+            "$or": [
+                {"first_name": {"$regex": search_query, "$options": "i"}},
+                {"last_name": {"$regex": search_query, "$options": "i"}}
+            ]
+        }
+    total_count = db.patients.count_documents(query)
+    total_pages = (total_count + per_page - 1) // per_page
+    
+    return render_template('patients/index.html', 
+                         patients=patient_list, 
+                         page=page, 
+                         search_query=search_query,
+                         total_pages=total_pages,
+                         total_count=total_count)
 
 @patients.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -121,7 +138,6 @@ def predict(patient_id):
         return redirect(url_for('patients.index'))
     
     try:
-        # Decrypt sensitive fields for prediction, in memory decryption used.
         prediction, probability = predict_stroke_risk(
             patient.age,
             patient.hypertension,
@@ -153,8 +169,6 @@ def export_pdf(patient_id):
             return redirect(url_for('patients.index'))
             
         log_audit('export_pdf', {'patient_id': str(patient_id)})
-        
-        # Flash the password to the user (in a real app, this might be handled differently)
         flash(f'PDF exported successfully. Password is: {password}', 'success')
         
         return send_file(
