@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-6">Test 2FA Codes - Debug Tool</h2>
+        
+        <div class="mb-6">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                <p class="font-semibold">2FA Status: 
+                    {% if is_enabled %}
+                        <span class="text-green-600">Enabled</span>
+                    {% else %}
+                        <span class="text-orange-600">Disabled</span>
+                    {% endif %}
+                </p>
+                <p class="text-sm mt-2">Secret Key: <code class="bg-gray-100 px-2 py-1 rounded">{{ secret }}</code></p>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Current Valid Codes (with time window)</h3>
+            <p class="text-sm text-gray-600 mb-4">These codes should work with valid_window=2</p>
+            
+            <table class="min-w-full bg-white border">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Time</th>
+                        <th class="px-4 py-2 text-left">OTP Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in codes %}
+                    <tr class="border-t {% if 'CURRENT' in item.time %}bg-green-50 font-semibold{% endif %}">
+                        <td class="px-4 py-2">{{ item.time }}</td>
+                        <td class="px-4 py-2 font-mono text-lg">{{ item.code }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Instructions</h3>
+            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                <li>Compare the CURRENT code with your Google Authenticator app</li>
+                <li>They should match within a few seconds</li>
+                <li>If they don't match, check:
+                    <ul class="list-disc list-inside ml-6 mt-1">
+                        <li>Your phone's time is set to automatic (synchronized)</li>
+                        <li>Your computer's time is correct</li>
+                        <li>You scanned the correct QR code</li>
+                        <li>The secret key in the app matches the one above</li>
+                    </ul>
+                </li>
+                <li>Try entering the CURRENT code in the setup page</li>
+            </ol>
+        </div>
+
+        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+            <p class="font-semibold text-yellow-800">Security Note</p>
+            <p class="text-sm text-yellow-700 mt-1">
+                This is a debug tool. Remove or restrict access to this route in production!
+            </p>
+        </div>
+
+        <div class="flex space-x-4">
+            <a href="{{ url_for('auth.setup_2fa') }}" 
+               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Go to 2FA Setup
+            </a>
+            <a href="{{ url_for('patients.index') }}" 
+               class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                Back to Dashboard
+            </a>
+            <button onclick="location.reload()" 
+                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                Refresh Codes
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-refresh every 10 seconds to show updated codes
+    setTimeout(function() {
+        location.reload();
+    }, 10000);
+</script>
+{% endblock %}
