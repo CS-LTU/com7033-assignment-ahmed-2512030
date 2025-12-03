@@ -7,7 +7,8 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
-    MONGO_URI = 'mongodb://localhost:27017/stroke_app_test'
+    MONGO_URI = 'mongodb://localhost:27018/stroke_app_test'
+    ENCRYPTION_KEY = b'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' # Valid 32-byte key (all zeros)
 
 @pytest.fixture
 def app():
@@ -25,4 +26,4 @@ def client(app):
 
 @pytest.fixture
 def runner(app):
-    return app.test_cli_runner()
+    return app.test_cli_runner()    
