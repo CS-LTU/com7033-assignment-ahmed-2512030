@@ -30,8 +30,8 @@
             <h3 class="text-lg font-bold mb-2">Medical Info</h3>
             <p><strong>BMI:</strong> {{ patient.bmi }}</p>
             <p><strong>Avg Glucose Level:</strong> {{ patient.avg_glucose_level }}</p>
-            <p><strong>Hypertension:</strong> {{ 'Yes' if patient.hypertension == '1' else 'No' }}</p>
-            <p><strong>Heart Disease:</strong> {{ 'Yes' if patient.heart_disease == '1' else 'No' }}</p>
+            <p><strong>Hypertension:</strong> {{ 'Yes' if patient.hypertension|string == '1' else 'No' }}</p>
+            <p><strong>Heart Disease:</strong> {{ 'Yes' if patient.heart_disease|string == '1' else 'No' }}</p>
             <p><strong>Smoking Status:</strong> {{ patient.smoking_status }}</p>
         </div>
     </div>

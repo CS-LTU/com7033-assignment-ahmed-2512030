@@ -49,9 +49,11 @@
         <h3>Medical History</h3>
         <div><span class="label">BMI:</span> <span class="value">{{ patient.bmi }}</span></div>
         <div><span class="label">Avg Glucose:</span> <span class="value">{{ patient.avg_glucose_level }}</span></div>
-        <div><span class="label">Hypertension:</span> <span class="value">{{ 'Yes' if patient.hypertension == '1' else
+        <div><span class="label">Hypertension:</span> <span class="value">{{ 'Yes' if patient.hypertension|string == '1'
+                else
                 'No' }}</span></div>
-        <div><span class="label">Heart Disease:</span> <span class="value">{{ 'Yes' if patient.heart_disease == '1' else
+        <div><span class="label">Heart Disease:</span> <span class="value">{{ 'Yes' if patient.heart_disease|string ==
+                '1' else
                 'No' }}</span></div>
         <div><span class="label">Smoking Status:</span> <span class="value">{{ patient.smoking_status }}</span></div>
     </div>
