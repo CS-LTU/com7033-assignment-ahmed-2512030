@@ -10,12 +10,20 @@
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 {{ form.first_name.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2") }}
                 {{ form.first_name(class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3
-                px-4 mb-3 leading-tight focus:outline-none focus:bg-white") }}
+                px-4 mb-3 leading-tight focus:outline-none focus:bg-white" + (" border-red-500" if
+                form.first_name.errors else "")) }}
+                {% for error in form.first_name.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/2 px-3">
                 {{ form.last_name.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2") }}
                 {{ form.last_name(class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
-                rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500") }}
+                rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + ("
+                border-red-500" if form.last_name.errors else "")) }}
+                {% for error in form.last_name.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
 
@@ -23,19 +31,31 @@
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                 {{ form.age.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2") }}
                 {{ form.age(class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500") }}
+                py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + (" border-red-500" if
+                form.age.errors else "")) }}
+                {% for error in form.age.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                 {{ form.gender.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2") }}
                 <div class="relative">
                     {{ form.gender(class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700
-                    py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") }}
+                    py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + ("
+                    border-red-500" if form.gender.errors else "")) }}
                 </div>
+                {% for error in form.gender.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                 {{ form.bmi.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2") }}
                 {{ form.bmi(class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500") }}
+                py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + (" border-red-500" if
+                form.bmi.errors else "")) }}
+                {% for error in form.bmi.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
 
@@ -45,7 +65,10 @@
                 mb-2") }}
                 {{ form.avg_glucose_level(class="appearance-none block w-full bg-gray-200 text-gray-700 border
                 border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white
-                focus:border-gray-500") }}
+                focus:border-gray-500" + (" border-red-500" if form.avg_glucose_level.errors else "")) }}
+                {% for error in form.avg_glucose_level.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/2 px-3">
                 {{ form.smoking_status.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")
@@ -53,8 +76,11 @@
                 <div class="relative">
                     {{ form.smoking_status(class="block appearance-none w-full bg-gray-200 border border-gray-200
                     text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
-                    focus:border-gray-500") }}
+                    focus:border-gray-500" + (" border-red-500" if form.smoking_status.errors else "")) }}
                 </div>
+                {% for error in form.smoking_status.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
 
@@ -65,8 +91,11 @@
                 <div class="relative">
                     {{ form.hypertension(class="block appearance-none w-full bg-gray-200 border border-gray-200
                     text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
-                    focus:border-gray-500") }}
+                    focus:border-gray-500" + (" border-red-500" if form.hypertension.errors else "")) }}
                 </div>
+                {% for error in form.hypertension.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/2 px-3">
                 {{ form.heart_disease.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")
@@ -74,8 +103,11 @@
                 <div class="relative">
                     {{ form.heart_disease(class="block appearance-none w-full bg-gray-200 border border-gray-200
                     text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
-                    focus:border-gray-500") }}
+                    focus:border-gray-500" + (" border-red-500" if form.heart_disease.errors else "")) }}
                 </div>
+                {% for error in form.heart_disease.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
 
@@ -85,8 +117,11 @@
                 <div class="relative">
                     {{ form.work_type(class="block appearance-none w-full bg-gray-200 border border-gray-200
                     text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
-                    focus:border-gray-500") }}
+                    focus:border-gray-500" + (" border-red-500" if form.work_type.errors else "")) }}
                 </div>
+                {% for error in form.work_type.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
             <div class="w-full md:w-1/2 px-3">
                 {{ form.residence_type.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")
@@ -94,8 +129,11 @@
                 <div class="relative">
                     {{ form.residence_type(class="block appearance-none w-full bg-gray-200 border border-gray-200
                     text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
-                    focus:border-gray-500") }}
+                    focus:border-gray-500" + (" border-red-500" if form.residence_type.errors else "")) }}
                 </div>
+                {% for error in form.residence_type.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
 
