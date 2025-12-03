@@ -15,7 +15,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Total Patients</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ total_patients }}</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                     <i class="fas fa-users text-blue-600 text-xl"></i>
@@ -28,7 +28,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">High Risk Cases</p>
-                    <p class="text-3xl font-bold text-red-600 mt-2">0</p>
+                    <p class="text-3xl font-bold text-red-600 mt-2">{{ high_risk_count }}</p>
                 </div>
                 <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                     <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
@@ -41,7 +41,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Assessments Today</p>
-                    <p class="text-3xl font-bold text-green-600 mt-2">0</p>
+                    <p class="text-3xl font-bold text-green-600 mt-2">{{ assessments_today }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                     <i class="fas fa-clipboard-check text-green-600 text-xl"></i>
