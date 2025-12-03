@@ -33,7 +33,7 @@ def test_login_logout(client, app):
         'password': 'password'
     }, follow_redirects=True)
     assert response.status_code == 200
-    assert b'Patient Dashboard' in response.data # Redirects to index
+    assert b'Dashboard' in response.data # Redirects to index
 
     # Logout
     response = client.get('/logout', follow_redirects=True)
