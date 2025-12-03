@@ -16,8 +16,8 @@ def predict_stroke_risk(age, hypertension, heart_disease, avg_glucose_level, bmi
         # Mock logic for demo purposes when ML libs can't be installed
         base_risk = 0.1
         if age > 60: base_risk += 0.3
-        if hypertension == '1': base_risk += 0.2
-        if heart_disease == '1': base_risk += 0.2
+        if str(hypertension) == '1': base_risk += 0.2
+        if str(heart_disease) == '1': base_risk += 0.2
         if float(bmi) > 30: base_risk += 0.1
         if float(avg_glucose_level) > 200: base_risk += 0.1
         

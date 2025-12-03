@@ -1,6 +1,6 @@
 from flask import request, current_app
 from flask_login import current_user
-from datetime import datetime
+from datetime import datetime, UTC
 
 def log_audit(action, details=None):
     """
@@ -14,7 +14,7 @@ def log_audit(action, details=None):
         username = current_user.username
 
     log_entry = {
-        'timestamp': datetime.utcnow(),
+        'timestamp': datetime.now(UTC),
         'user_id': user_id,
         'username': username,
         'ip_address': request.remote_addr,
